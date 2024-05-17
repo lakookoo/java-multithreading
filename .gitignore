@@ -1,0 +1,19 @@
+# Compiled class files
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Maven specific
+/target/
+
+# Gradle specific
+/build/
+
+# IDE files for Visual Studio Code
+.vscode/
+
+# Operating System files
+.DS_Store
