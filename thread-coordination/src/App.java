@@ -1,39 +1,33 @@
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        Thread thread = new Thread(new LongComputationTask(new BigInteger("20000000"), new BigInteger("100000000")));
-        thread.setDaemon(true);
-        thread.start();
-        Thread.sleep(100);
-        thread.interrupt();
+        List<Long> inputNumbers = Arrays.asList(0L, 3435L, 2324L, 4656L, 23L, 2435L, 5566L);
+
+        List<FactorialThread> threads = new ArrayList<>();
+
+        for( long inputNumber : inputNumbers){
+            threads.add(new FactorialThread(inputNumber));
+        }
+
+        for(Thread thread : threads){
+            thread.start();
+        }
+
+        for(int i = 0; i < inputNumbers.size(); i++){
+            FactorialThread factorialThread = threads.get(i);
+            if(factorialThread.isFinished()){
+                System.out.println("Factorial of " + inputNumbers.get(i) + " is " + factorialThread.getResult());
+            }
+            else {
+                System.out.println("The calculation for " + inputNumbers.get(i) + "is still in progress");
+            }
+        }
         
     }
 
-    private static class LongComputationTask implements Runnable {
-        private BigInteger base;
-        private BigInteger power;
-
-        public LongComputationTask(BigInteger base, BigInteger power){
-            this.base = base;
-            this.power = power;
-        }
-        @Override
-        public void run() {
-            System.out.println(base + "^" + power + " = " + pow(base, power));
-        }
-    }
-
-    private static BigInteger pow(BigInteger base, BigInteger power){
-        BigInteger result = BigInteger.ONE;
-        for(BigInteger i = BigInteger.ONE; i.compareTo(power) != 0; i = i.add(BigInteger.ONE)){
-            // if(Thread.currentThread().isInterrupted()){
-            //     System.out.println("Prematurely interrupted computation");
-            //     return BigInteger.ZERO;
-            // }
-            result = result.multiply(base);
-
-        }
-        return result;
-    }
+    
 }
