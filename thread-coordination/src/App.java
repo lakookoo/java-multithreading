@@ -17,6 +17,10 @@ public class App {
             thread.start();
         }
 
+        for(Thread thread : threads){
+            thread.join(2000);
+        }
+
         for(int i = 0; i < inputNumbers.size(); i++){
             FactorialThread factorialThread = threads.get(i);
             if(factorialThread.isFinished()){
