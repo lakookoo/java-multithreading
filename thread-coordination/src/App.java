@@ -3,7 +3,9 @@ import java.math.BigInteger;
 public class App {
     public static void main(String[] args) throws Exception {
         Thread thread = new Thread(new LongComputationTask(new BigInteger("20000000"), new BigInteger("100000000")));
+        thread.setDaemon(true);
         thread.start();
+        Thread.sleep(100);
         thread.interrupt();
         
     }
@@ -25,10 +27,10 @@ public class App {
     private static BigInteger pow(BigInteger base, BigInteger power){
         BigInteger result = BigInteger.ONE;
         for(BigInteger i = BigInteger.ONE; i.compareTo(power) != 0; i = i.add(BigInteger.ONE)){
-            if(Thread.currentThread().isInterrupted()){
-                System.out.println("Prematurely interrupted computation");
-                return BigInteger.ZERO;
-            }
+            // if(Thread.currentThread().isInterrupted()){
+            //     System.out.println("Prematurely interrupted computation");
+            //     return BigInteger.ZERO;
+            // }
             result = result.multiply(base);
 
         }
